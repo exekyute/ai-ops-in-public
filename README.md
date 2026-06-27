@@ -3,7 +3,7 @@
 A daily log of building, governing, and operationalizing AI-powered automation. One small,
 real artifact a day: a standard, a checklist, a runbook, a metric, a working script.
 
-My goal is operational maturity. Anyone advocating for/running AI inside a team has to do five
+The aim is operational maturity, not demos. Anyone running AI inside a team has to do five
 things well, and this repo grows one piece of each, every day:
 
 - **Build** automations that are reliable, not just clever.

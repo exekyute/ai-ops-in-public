@@ -1,0 +1,19 @@
+# strategy and anything private stays local
+private/
+
+# secrets and env
+.env
+.env.*
+*.local
+
+# os and editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
