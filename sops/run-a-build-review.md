@@ -1,4 +1,4 @@
-# SOP: Run a Build Review (v1)
+# SOP: Run a Build Review (v2)
 
 **Purpose:** take a submitted automation from "someone says it is done" to a clear decision,
 the same way every time, so the result does not depend on who reviewed it.
@@ -37,15 +37,15 @@ cannot review what you cannot see run.
 4. **Walk the checklist, top to bottom.** Mark each item yes, no, or not applicable. Do not
    skip ahead. If an item needs a paragraph of explaining, note it and move on.
 
-5. **Handle the AI section only if the build calls a model.** If it does not, mark those
+5. **Handle the AI steps only if the build calls a model.** If it does not, mark those
    items not applicable and keep going.
 
 6. **Land on a decision.** Use the marks, not your gut:
    - All checks pass: **Approve.**
    - Passes except for small, clearly listed fixes: **Approve with fixes.** Write the fixes
      in the checklist.
-   - Any basic check fails, or the build does not do what the description says: **Send back.**
-     Write the reasons.
+   - Any basic, ownership, or lifecycle check fails, or the build does not do what the
+     description says: **Send back.** Write the reasons.
 
 7. **Send the result back to the builder.** The filled-in checklist is the message. It says
    what you decided and why, so there is nothing to re-explain later.
@@ -67,7 +67,17 @@ These come up most often. Check for them early to save a full pass:
 - A retry sits on a step that is not safe to run twice.
 - Secrets typed into a node instead of the credential store.
 - No way for a human to find out when it fails.
+- No owner named, so nobody is accountable once it is live.
+- No safe way to stop it, or no versioned definition to roll back to.
+
+## What changed in v2
+
+- The decision rule now sends a build back on a failed ownership or lifecycle check, not only a
+  failed basic one, to match the new section in `governance/ai-build-review-checklist.md`.
+- Renamed "the AI section" to "the AI steps" so this SOP and the checklist use the same label.
+- Added two production send-back reasons: no named owner, and no safe stop or version to roll
+  back to.
 
 ---
 
-*v1. A living SOP. When a review turns up a step this missed, add it here.*
+*v2. A living SOP. When a review turns up a step this missed, add it here.*
