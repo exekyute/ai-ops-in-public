@@ -22,6 +22,7 @@ things well, and this repo grows one piece of each, every day:
 | `sops/` | Standard operating procedures and the SOP template |
 | `analytics/` | Metric definitions and usage-to-insight memos |
 | `integration/` | Weekly artifacts that combine the pillars into one system |
+| `examples/` | Worked, end-to-end runs of the loop on synthetic data |
 | `daily/` | One short entry per day: the idea and what shipped |
 | `log/` | Weekly synthesis of what was learned |
 
