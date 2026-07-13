@@ -29,7 +29,7 @@ before you call it done.
 **What counts.**
 
 - *Total runs* is every run started in the period, including the ones that failed. Count
-  attempts, not just successes, or the rate will flatter you.
+  attempts, not only successes, or the rate will flatter you.
 - *Exceptions* is a run that either ended in an error state, or was routed to a person to
   resolve. Decide per workflow what "routed to a person" means and write it down next to the
   build, so the count does not drift over time.
