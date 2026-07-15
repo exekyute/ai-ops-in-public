@@ -17,7 +17,7 @@ These come from the automation standards. Any "no" here is a fix before approval
 - [ ] The name says what it does, so you can tell from the list without opening it.
 - [ ] Nodes and steps are named for what they do, not left as defaults.
 - [ ] Test and prod use separate credentials. Nothing is reused across environments, and the env is suffixed on every credential.
-- [ ] There is an error path, not just a happy path.
+- [ ] There is an error path, not only a happy path.
 - [ ] When something fails, a person gets told, with enough detail to act on.
 - [ ] Expected failures (a 404 from a lookup) are handled in logic; only the unexpected ones (a 500, a timeout) raise an alert.
 - [ ] Retries only happen on steps that are safe to run again.
@@ -80,4 +80,4 @@ Fixes or reasons:
 
 ---
 
-*v2. A living checklist. It now checks the two standard rules a week of use turned up, a named owner and a safe rollback, plus the Basics rules the v1 had skipped. The next pass folds in a worked example so a reviewer can see a passing build, not just the questions.*
+*v2. A living checklist. It now checks the two standard rules a week of use turned up, a named owner and a safe rollback, plus the Basics rules the v1 had skipped. The next pass folds in a worked example so a reviewer can see a passing build, not only the questions.*

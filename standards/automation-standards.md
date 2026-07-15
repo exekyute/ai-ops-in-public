@@ -23,7 +23,7 @@ A name should tell the next person what runs, what it touches, and how often, wi
 
 Silent failure is the most expensive bug in operations, because nobody knows it happened.
 
-- Every workflow that runs unattended has an **error path**, not just a happy path.
+- Every workflow that runs unattended has an **error path**, not only a happy path.
 - Trigger and external-call nodes set an explicit `onError` behavior. Default to surfacing, not
   swallowing.
 - A failure notifies a human channel with: workflow name, the input that failed, the error

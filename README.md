@@ -6,7 +6,7 @@ real artifact a day: a standard, a checklist, a runbook, a metric, a working scr
 The aim is operational maturity, not demos. Anyone running AI inside a team has to do five
 things well, and this repo grows one piece of each, every day:
 
-- **Build** automations that are reliable, not just clever.
+- **Build** automations that are reliable, not only clever.
 - **Govern** them: review rubrics, guardrails, responsible-use practices.
 - **Enable** people: adoption frameworks, coaching, training material.
 - **Document** everything into reusable SOPs, runbooks, and standards.

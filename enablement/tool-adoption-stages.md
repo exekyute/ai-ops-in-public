@@ -46,7 +46,7 @@ done.
 
 ### 5. Show someone else
 They teach a colleague, suggest an improvement, or defend the tool in a meeting. They have
-become an owner, not just a user.
+become an owner, not only a user.
 
 - **Why this matters:** these people carry adoption further than any rollout plan. One of
   them is worth more than another announcement.
