@@ -1,8 +1,9 @@
-# Metric Definitions (v3)
+# Metric Definitions (v4)
 
 A number is only useful if everyone reading it counts the same thing. This file defines the
 metrics this lab uses to tell whether an automation is actually working, whether the builds
-behind it arrive ready for review, and whether the reviews themselves hold up, one entry at a time.
+behind it arrive ready for review, whether the reviews themselves hold up, and how long a decision
+takes to arrive, one entry at a time.
 Each entry pins down what the metric is, the exact formula, what counts and what does not,
 where the data comes from, how often to read it, and the ways the number can mislead you.
 
@@ -250,6 +251,139 @@ the per-reviewer pattern more than any single rate, and read it next to the send
 that climbs cycle over cycle, or one reviewer whose approvals keep turning up as misses, is worth
 acting on even while the pooled number still looks low.
 
+## Review latency
+
+**What it is.** How long a build waits between being handed off and getting a decision, read as the
+median wait across the handoffs first-reviewed in a period. A build enters the review queue when its
+handoff packet is accepted (`sops/hand-off-a-build-for-review.md`) and leaves when a reviewer lands on a
+decision and that decision is logged (`sops/review-log-spec.md`). The gap between those two moments is
+one build's wait, and review latency is the typical one. This is the only entry here that measures a
+duration rather than a share, and it says nothing about whether the review was right: exception rate is
+runtime health, send-back rate is the builder's prep, review miss rate is the reviewer's judgment. A
+build can wait three weeks and then get a careful, correct approval. All three of those numbers read
+clean on it, and this is the one that sees the three weeks.
+
+**Why it matters.** Builds rot in a queue. A build waiting on review is finished work that has not been
+delivered, and the longer it waits the more the ground shifts under it: the input format changes, the
+builder loses the context they would need to fix anything, the person who asked stops waiting. A
+decision that comes too late is its own kind of failure, even when it is the right decision. A review
+that is deep and six weeks late has already cost part of what it was protecting. This number also reads
+the reviewer pool's capacity against the intake: per `sops/run-the-review-queue.md`, a queue taking in
+builds faster than independent reviewers can honestly clear them shows up here first, as waits that
+climb week over week, and no reordering rule reaches that.
+
+**Formula.**
+
+    review latency = median(first-review date minus handoff time) over handoffs first-reviewed in the period
+
+**What counts.**
+
+- *Handoffs first-reviewed* is the population: every handoff whose first review was logged in the
+  period, placed by that review's date, one duration per log row, in days from handoff to the
+  first-review decision. This is a median over durations rather than a rate, so the whole question is
+  which handoffs are in the sorted list.
+- *One build's wait* is the first-review date minus that handoff's handoff time. Count the first review
+  only, the way the send-back rate does. A re-submission goes to the back of the queue as a fresh
+  arrival (`sops/run-the-review-queue.md`), so it waits again, and that second wait is not in this
+  median: the log keeps one row per handoff, and a re-review updates only the optional final outcome,
+  which carries no date (`sops/review-log-spec.md`). That is a real gap. A build sent back and
+  re-reviewed twice can wait weeks in total and show only its first wait here. The queue still holds its
+  row, so the oldest-waiting age sees a re-submission rotting even when the median cannot.
+- *Use the median, not the mean.* One stuck build drags a mean well past anything a builder actually
+  experiences, while the median stays where most builds sit. Sort the durations and take the middle one;
+  with an even count, average the two middle values. A handful of durations is hand-computable that way,
+  which keeps this metric inside this file's rule for adding one.
+- *The companion is the oldest-waiting age:* now minus the handoff time of the longest-waiting build
+  still in the queue. Read it beside the median every time, the way send-back rate is read beside
+  first-pass approval rate. The median is a lagging number about builds that are done waiting; the
+  oldest-waiting age reads the live queue, so it moves first, and the queue SOP already names it as the
+  one signal that the queue is under-served (`sops/run-the-review-queue.md`).
+- *Undecided builds are excluded, by construction.* A build still in the queue has no decision date, so
+  it produces no duration and lands nowhere in the median.
+
+**Where the data comes from.** Two records, and one field that does not exist yet. The decision side
+comes from the review log (`sops/review-log-spec.md`): one row per handoff with the build, the reviewer,
+the first-review outcome, and the date, which the spec defines as the date of the first review, which is
+why this median is a median over first reviews. The waiting side comes from the review queue
+(`sops/run-the-review-queue.md`), whose row records when the build was handed off and leaves the queue
+the moment the decision is logged. So the two timestamps this metric subtracts never sit on the same
+durable row. The prerequisite is one new field on the log row, the handoff time, copied from the queue
+row when the review is logged, or recorded at handoff where no queue row exists, since a build handed
+off with nothing else in flight never gets one. The four required fields in the current log spec do not
+include it. The spot-audit named the reviewer field this way (`governance/review-spot-audit.md`) and the
+review miss rate named the audit fields this way; this is the same kind of ask. The oldest-waiting age
+needs nothing new: it reads the live queue, where every waiting row still carries its handoff time.
+
+**How often to read it.** Weekly per queue, the same cadence as exception rate and send-back rate, with
+the number of first reviews written next to it every time. A median of three durations is a fact about
+three builds; in a slow week, read the raw durations and skip the median. Read the oldest-waiting age
+more often, every time anyone looks at the queue: it costs one glance at the top row and it moves every
+day on its own.
+
+**How to read it without fooling yourself.**
+
+- *Only decided builds count, so a stalled queue can look fast.* This is the trap that matters most
+  here. The median is taken over handoffs that got a first review, so a build still sitting undecided is
+  not in the number at all. A queue that clears the quick reviews and lets the hard ones rot posts a fast
+  median, because the rotting ones never entered it. The worse it gets at clearing hard builds, the
+  better the median can look. That is the same shape as the exception rate's runs that never start: what
+  never lands in the record never lands in the number. The oldest-waiting age is what catches it,
+  because it reads the queue instead of the log.
+- *Watch the volume.* A 2-day median on 3 first reviews is a quiet week, not a fast queue. Put the count
+  next to the median, every time, the way the exception rate carries its run count.
+- *The median hides the tail on purpose, so read the tail separately.* The median is the right centre
+  because one stuck build should not swing it, and the cost is that it cannot see that build at all.
+  Switching to the mean is no fix, since a mean swings for any reason and tells you nothing about which.
+  Read the oldest-waiting age beside it: the median for the typical wait, the oldest-waiting age for the
+  build being abandoned. When the median is flat and the oldest-waiting age is climbing, believe the
+  oldest-waiting age.
+- *This is a pool signal, not a reviewer-speed signal.* When latency climbs, the queue is taking in
+  builds faster than the pool can honestly clear them, and the fix is more reviewers or fewer builds in
+  flight, not a reviewer working faster (`sops/run-the-review-queue.md`). A review rushed to drain a
+  backlog is the rubber stamp this repo exists to prevent
+  (`enablement/reviewing-without-rubber-stamping.md`). Pointing this number at a person converts a
+  staffing fact into pressure on the one step that cannot absorb it.
+- *It is blind to the pool's independence.* A pool of one posts the fastest median in this file, because
+  a build handed to its own builder clears at once, and that is the self-check wearing a review's name
+  (`sops/run-the-review-queue.md`). The review miss rate goes blind at the same place, since an audit
+  needs a third person a pool of two does not have. So the pair below fails at exactly the pool size
+  where "add reviewers" is the answer. Count the people before you read either number.
+- *The priority lane mixes two populations.* Lane builds are fast by construction and everything else
+  absorbs the wait, so a busy lane pulls the pooled median down while the default line quietly gets
+  slower, and the result describes neither group. Slice by lane. If the lane has grown big enough to move
+  the pooled median, that is its own finding, because a lane that holds most builds is not a lane.
+- *Read it against the review miss rate, always.* These two pull against each other. You can cut latency
+  to almost nothing by reviewing worse: skip the bad input, leave the node closed, decide from the gut.
+  Speed is the one thing a rubber stamp is reliably good at. So latency falling on its own means nothing
+  until you know what happened to the miss rate underneath it. Falling latency with a stable miss rate is
+  real capacity. Falling latency with a rising miss rate is reviews getting shallower. The read runs the
+  other way too: latency climbing while the miss rate holds is a pool problem, and adding pressure to it
+  is how you turn a pool problem into a judgment problem.
+
+**A worked example (synthetic).** In one week, 7 handoffs got a first review, with waits in days of 3,
+1, 11, 2, 6, 1, and 4. Sorted, that is 1, 1, 2, 3, 4, 6, 11, so the median is the 4th: review latency is
+3 days on 7 first reviews. Now read the queue beside it. It still holds 6 builds nobody has decided,
+waiting 8, 9, 11, 12, 13, and 14 days, so the oldest-waiting age is 14. None of those 6 touch the median,
+because a build with no decision has no duration to contribute. Thirteen builds were in flight, and the
+median describes the 7 that finished. Line all 13 up at their current ages and the middle is 8 days, not
+3. That 8 is not the metric: folding unfinished waits into a median of finished ones would be wrong,
+because those builds are still waiting and their durations are not final. The 8 only measures how much
+the median is not looking at. Read alone, the 3-day median says this queue turns builds around in three
+days. Read with the count (7 first reviews) and the oldest-waiting age (14 days, 6 still waiting), it
+says a queue clearing its easy builds while the rest rot. Next to the 3 you would note both, and this
+week's review miss rate.
+
+**On targets.** There is no universal good number, and a fast median is not good news on its own, since a
+queue that only decides its easy builds posts a fast one and the fastest possible queue is the one where
+nobody looks. This file sets no threshold, and the queue SOP is explicit that it cannot set your target
+age either, because that depends on your intake and how fast independent reviewers can honestly clear it
+(`sops/run-the-review-queue.md`). Set a target from your own baseline once a stretch of live queue shows
+what your pool clears, then watch the trend more than the absolute value and read both numbers next to
+the review miss rate. A median that drifts up week over week, or an oldest-waiting age that climbs past
+your target while the median stays flat, is a pool signal: add reviewers or slow the intake. A median
+that improves while the miss rate rises is the worse case, because it is the number getting better while
+the thing it exists to protect gets worse.
+
 ## What changed in v2
 
 - Added "Send-back rate": the share of handed-off builds a reviewer sends back on the first review,
@@ -266,7 +400,17 @@ acting on even while the pooled number still looks low.
   (original approved, audit would send back) as the number the send-back rate cannot see.
 - Broadened the opening scope line to cover whether the reviews themselves hold up.
 
+## What changed in v4
+
+- Added "Review latency": the median wait from handoff to first-review decision, the first entry here
+  that measures a duration rather than a share, read beside its companion the oldest-waiting age.
+- Named the trap that only decided builds count, so a stalled queue posts a fast median while the builds
+  rotting in the queue sit outside the number entirely.
+- Paired it with the review miss rate, since latency can always be cut by reviewing worse, and noted that
+  both numbers go blind when the pool is too small to be independent.
+- Broadened the opening scope line to cover how long a decision takes to arrive.
+
 ---
 
-*v3. A living dictionary. Each later pass adds a metric or sharpens one once a real read of the
+*v4. A living dictionary. Each later pass adds a metric or sharpens one once a real read of the
 data showed where it was vague.*
