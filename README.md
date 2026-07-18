@@ -29,7 +29,9 @@ things well, and this repo grows one piece of each, every day:
 ## How to read this
 
 Start in `daily/` for the running narrative, or jump to any folder for the artifacts
-themselves. Everything uses synthetic or placeholder data.
+themselves. The pieces are built to connect: `integration/` holds a weekly map of how each
+week's artifacts fit into one system, and `examples/` runs those systems end to end on a
+synthetic build. Everything uses synthetic or placeholder data.
 
 ## License
 

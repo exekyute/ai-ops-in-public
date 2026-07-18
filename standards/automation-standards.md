@@ -6,7 +6,9 @@ It is tool-agnostic; the examples lean on n8n but the rules apply to any orchest
 
 v2 deepens v1: every core section now has a short "what good looks like" line, and two areas a
 real program cannot skip have been added, ownership and change/rollback. The changes are listed
-at the end.
+at the end. For these rules in practice, `examples/` traces two synthetic builds through them:
+one whose only flaw is a failed section 4 (idempotency) that the review catches, and one that
+runs clean while breaking section 5 (secrets and access) in a way only inspection finds.
 
 ## 1. Naming
 

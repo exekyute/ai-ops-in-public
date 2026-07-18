@@ -133,26 +133,27 @@ Be honest about the limits. The audit buys detectability, not a guarantee.
 
 ## What comes next
 
-Two threads stay open, the way the loop itself leaves threads open.
+Two threads this guardrail named have since been picked up, and one gap now sits under both.
 
 The miss count wants its own metric. Right now a miss is a note you read by hand. Counted properly it
 would be a review miss rate, the share of audited reviews whose decision the audit overturned, defined in
 `analytics/metric-definitions.md` the way send-back rate is, with its own formula, what counts, and how
-to read it without fooling yourself. That is the number you would eventually read next to the send-back
-rate instead of a pile of notes. It is not written yet.
+to read it without fooling yourself. That is the number you read next to the send-back rate instead of a
+pile of notes. It has since been defined (`analytics/metric-definitions.md`); what stays open under it is
+data, since no real audit has filled it yet.
 
 An audit also needs a review log to sample from. The send-back rate already draws on the review records
 for one row per handoff: the build, its first-review outcome, and a date
 (`analytics/metric-definitions.md`). The audit draws on those same records, and it needs one more field
 on them, the original reviewer. Without the reviewer written down, you cannot reliably hand a build to
 someone who did not review it, and you cannot tell whether one reviewer's approvals keep coming back as
-misses. That reviewer field is missing from the current log spec, and adding it is part of the log the
-audit is still waiting on. The loop asks that reviews get recorded, but it does not have that log as a
-real artifact yet. Until it does, the audit runs on whatever review records exist, and building that log,
-reviewer included, is the prerequisite this guardrail is waiting on.
+misses. That reviewer field now sits in the review log spec (`sops/review-log-spec.md`), which pins down
+one row per handoff with the reviewer included, the field this audit named as its prerequisite, so the
+audit has a defined shape to sample from. What stays open is the same gap as above: the spec is written,
+and no real queue has filled it with rows.
 
 ---
 
-*v1. A living guardrail. It checks the reviewer the way the checklist checks the builder. The next pass
-defines a review miss rate in the analytics so a miss becomes a number, and pins the audit to a real
-review log, reviewer field included, once the loop has one to sample from.*
+*v1. A living guardrail. It checks the reviewer the way the checklist checks the builder. The review miss
+rate and the review log it named have both been defined since; the next pass runs a real spot-audit
+against a filled log so the miss rate finally has data behind it.*
