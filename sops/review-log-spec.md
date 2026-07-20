@@ -1,4 +1,4 @@
-# The Review Log (v1)
+# The Review Log (v2)
 
 Two documents in this repo already lean on a record they never define. The send-back rate
 (`analytics/metric-definitions.md`) counts one row per handoff: the build, the first-review outcome, and
@@ -47,7 +47,7 @@ One row per handoff, first-review outcome frozen, is what stops that.
 
 ## The fields
 
-Four fields are required. They are the union of what the two consumers need, and nothing more.
+Five fields are required. They are the union of what the readers below need, and nothing more.
 
 **Build.** The name or id of the build that was reviewed, for example a workflow name like
 `intake-webhook-route-to-vendor`. It tells you which build a row is about, and it is how you find the
@@ -67,8 +67,16 @@ never changes once written, per the rule above.
 **Date.** The date of the first review. It is what lets you slice the log by period (this week, this month,
 since the last audit) and read the cadence of reviews over time.
 
-Those four are enough for the send-back rate and enough for the spot-audit to sample. The next fields are
-optional. Name them now so the log has room to grow, and leave them empty until something reads them.
+**Handed off.** The date the handoff packet was accepted and the build entered the queue
+(`sops/hand-off-a-build-for-review.md`). Review latency is the first-review date minus this one, so without
+it a wait cannot be computed at all. The queue row carries this date while a build waits, and that row
+leaves the queue the moment the decision is logged, so the handoff time has to be copied here as the review
+is written or it survives nowhere. Where a build was handed off with nothing else in flight and never got a
+queue row, record it at handoff.
+
+Those five are enough for the send-back rate, enough for the spot-audit to sample, and enough for review
+latency to compute a wait. The next fields are optional. Name them now so the log has room to grow, and
+leave them empty until something reads them.
 
 **Final outcome (optional).** How the handoff ended after any re-reviews. A build sent back on the first
 review, then fixed and approved, reads as "Send back" on its first-review outcome and "Approve" here. This
@@ -115,7 +123,7 @@ sample. When the owner changes, hand the log over on purpose, the way the standa
 
 ## What reads it
 
-Three readers, each taking a different slice of the same row.
+Four readers, each taking a different slice of the same row.
 
 - **The send-back rate** (`analytics/metric-definitions.md`) reads the build, the first-review outcome, and
   the date. It counts, over a period, the share of handoffs whose first-review outcome was "Send back." It
@@ -125,11 +133,15 @@ Three readers, each taking a different slice of the same row.
   decided handoffs, weights the sample toward approvals, and uses the reviewer field to hand each build to
   someone who did not review it and to spot a reviewer whose approvals keep coming back as misses. The
   reviewer field is the one the audit was waiting on, and adding it here closes that prerequisite.
-- **A future review miss rate** would read the audit fields: audited, audit outcome, miss. The spot-audit
-  already flags that a miss wants its own metric, the share of audited reviews whose decision the audit
-  overturned, defined in the analytics the way the send-back rate is. When that metric is written, the
-  audit fields on this log are where it reads from. Until then, those fields sit empty and nothing depends
-  on them.
+- **The review miss rate** (`analytics/metric-definitions.md`) reads the audit fields: audited, audit
+  outcome, miss. It is the share of audited reviews whose decision the audit overturned, and it was written
+  after this spec, so the audit fields named here are where it reads from. It needs both outcomes on an
+  audited row, the frozen first-review outcome and the audit outcome, to tell a miss from a match and a
+  false approval from an overturn the other way.
+- **Review latency** (`analytics/metric-definitions.md`) reads the handoff date and the first-review date
+  and takes the median of the gap between them, over the handoffs first-reviewed in a period. It is the
+  reader that added the handoff field, since a wait cannot be computed from a row that records only when
+  the review landed.
 
 ## What this does not settle
 
@@ -138,19 +150,37 @@ Be honest about the edges.
 - **This defines the record, not the tool.** It says what a row is and which fields it carries. Whether
   that lives in a spreadsheet, a database table, or a Notion board is a choice left to whoever keeps it.
   Pick a form that filters and counts, and the rest is open.
-- **The audit fields wait on a metric that does not exist yet.** Final outcome and the audit fields are
-  marked optional for a real reason: the review miss rate that would read the audit fields is named as a
-  next step in `governance/review-spot-audit.md` and is not written yet. Naming the fields now gives the log
-  room, and they stay dormant until the metric that reads them is defined in
-  `analytics/metric-definitions.md`.
+- **The optional fields are optional for two different reasons now.** The audit fields have a reader: the
+  review miss rate was written after this spec and reads them. They stay optional because only the rows a
+  spot-audit pulled ever carry them, and most rows are never pulled. Final outcome still has no metric
+  reading it, so it stays a convenience for anyone tracing what became of a build.
+- **A returning build is described two ways, and this spec does not settle which.**
+  `sops/run-the-review-queue.md` calls a re-submission a fresh handoff and sends it to the back of the queue
+  at a new handoff time, while this spec keeps one row per handoff and freezes the first-review outcome.
+  Populating the log (`examples/a-populated-log-and-queue.md`) showed the two readings disagree the moment
+  someone writes the row: read one way a returning build earns a second row and a second wait, read the
+  other way it can never gain either. That example takes this spec's reading. One of these two files should
+  say it once, for both, and neither does yet.
 - **A log only helps if reviews get logged.** The whole record rests on a row being written each time a
   review lands. A skipped row is invisible: the send-back rate counts a handoff that never entered the log
   as if it never happened, and the audit cannot sample a review it cannot see. The owner and the "write it
   when the review lands" rule exist for exactly this, and neither one forces the habit. The log makes an
   honest record possible. It does not make one automatic.
 
+## What changed in v2
+
+- Added a fifth required field, **Handed off**, the date the handoff packet was accepted. Review latency is
+  the first-review date minus this one, and populating the log
+  (`examples/a-populated-log-and-queue.md`) is what made the gap plain: the metric could be defined around a
+  missing field and could not be read around one. This closes the prerequisite review latency named.
+- Updated "What reads it" from three readers to four. The review miss rate is written now and reads the
+  audit fields, so it is no longer described as future, and review latency joins as the reader that added
+  the handoff field.
+- Named a gap populating the log surfaced: the queue SOP and this spec describe a returning build two
+  different ways, and neither file settles which reading wins.
+
 ---
 
-*v1. A living spec. It defines the one record the send-back rate and the spot-audit both draw on, reviewer
-field included, and closes the prerequisite the audit named. The next pass adds the audit fields for real
-once a review miss rate is defined to read them.*
+*v2. A living spec. It defines the one record the send-back rate, the spot-audit, the review miss rate, and
+review latency all draw on, reviewer and handoff fields included. The next pass settles what a returning
+build does to a row, the one question writing real rows could not answer from this file alone.*
