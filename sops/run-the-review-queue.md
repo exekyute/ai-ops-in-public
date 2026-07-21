@@ -1,4 +1,4 @@
-# SOP: Run the Review Queue (v1)
+# SOP: Run the Review Queue (v2)
 
 **Purpose:** order the builds waiting on review and assign each one to a reviewer who is not its builder,
 so no build starves, no build reaches a reviewer who cannot review it honestly, and no single person
@@ -35,7 +35,9 @@ Keep it light. One short row per waiting build is enough:
 
 - The build name (synthetic, like every name in this repo).
 - Who built it, so the assignment rule below has something to check against.
-- When it was handed off, so you can order by age and see the oldest.
+- Its arrival time, when this build entered the queue, so you can order by age and see the oldest. A
+  re-submission carries its own arrival time, later than the one frozen on its log row
+  (`governance/what-counts-as-one-handoff.md`).
 - Whether it is in the priority lane (below).
 - Who it is assigned to, once you assign it. Empty until then.
 
@@ -53,11 +55,13 @@ The order answers one question: of the builds waiting, which does a free reviewe
   lane that gets picked up before the default line. Keep the lane small. If most builds are priority, none
   are, and you are back to oldest-first with extra steps.
 - **A re-submission goes to the back.** A build sent back (`sops/run-a-build-review.md`) that comes back is
-  a fresh handoff (`sops/hand-off-a-build-for-review.md`), so in the queue it is a fresh arrival: it
-  re-enters at the back at its new handoff time and takes its turn like any other build. It does not keep
-  the place its first submission held. The review log keeps its original row, first-review outcome frozen
-  (`sops/review-log-spec.md`); only its place in the queue is new. This matches the loop: a send-back
-  returns to the start, rebuilds its packet, and hands off again.
+  a fresh arrival, and not a fresh handoff: it re-enters at the back at its new arrival time and takes its
+  turn like any other waiting build. It does not keep the place its first submission held. The review log
+  keeps its original row, first-review outcome frozen (`sops/review-log-spec.md`); only its place in the
+  queue is new. One handoff can have more than one arrival, and
+  `governance/what-counts-as-one-handoff.md` defines both words and gives the test for telling a
+  re-submission from a genuinely new handoff. This matches the loop: a send-back returns to the start,
+  rebuilds its packet, and hands off again (`sops/hand-off-a-build-for-review.md`).
 - **Watch the oldest-waiting age.** The age of the build that has waited longest is your one signal that
   the queue is under-served. If the oldest build keeps getting older week over week, the queue is taking in
   builds faster than it clears them, and no reordering fixes that. See "Keeping it from stalling."
@@ -144,8 +148,18 @@ Be honest about the edges.
   waiting for real rows, and it earns its keep only when builds actually get ordered and assigned on it
   every time.
 
+## What changed in v2
+
+- A returning build is a fresh **arrival** here, and not a fresh handoff. The old wording used "handoff"
+  for the queue's unit and for the log's, which are two different things, and writing real rows
+  (`examples/a-populated-log-and-queue.md`) showed the two readings disagree.
+  `governance/what-counts-as-one-handoff.md` settles it and this SOP points there.
+- The waiting row's date is named as its arrival time, so a re-submission's queue row and the frozen date
+  on its log row are no longer described by the same phrase.
+- The ordering rule is unchanged. A re-submission still enters at the back and takes its turn.
+
 ---
 
-*v1. A living SOP. The next pass sets a real target waiting age and a pool floor once a stretch of live
+*v2. A living SOP. The next pass sets a real target waiting age and a pool floor once a stretch of live
 queue shows what this loop can honestly clear, and names the first re-submission that jumped its place so
 the ordering rule catches it.*

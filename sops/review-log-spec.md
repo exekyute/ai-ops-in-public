@@ -1,4 +1,4 @@
-# The Review Log (v2)
+# The Review Log (v3)
 
 Two documents in this repo already lean on a record they never define. The send-back rate
 (`analytics/metric-definitions.md`) counts one row per handoff: the build, the first-review outcome, and
@@ -154,13 +154,13 @@ Be honest about the edges.
   review miss rate was written after this spec and reads them. They stay optional because only the rows a
   spot-audit pulled ever carry them, and most rows are never pulled. Final outcome still has no metric
   reading it, so it stays a convenience for anyone tracing what became of a build.
-- **A returning build is described two ways, and this spec does not settle which.**
-  `sops/run-the-review-queue.md` calls a re-submission a fresh handoff and sends it to the back of the queue
-  at a new handoff time, while this spec keeps one row per handoff and freezes the first-review outcome.
-  Populating the log (`examples/a-populated-log-and-queue.md`) showed the two readings disagree the moment
-  someone writes the row: read one way a returning build earns a second row and a second wait, read the
-  other way it can never gain either. That example takes this spec's reading. One of these two files should
-  say it once, for both, and neither does yet.
+- **A returning build no longer settles itself here.** That question, whether a re-submission opens a
+  second row or updates the first, is decided once in `governance/what-counts-as-one-handoff.md`, which
+  defines a handoff as one trip through review and an arrival as each entry into the queue. This spec keeps
+  one row per handoff, so a re-submission answering an open send-back updates only the optional final
+  outcome on the existing row. A submission that is new work, or one that follows a handoff already closed
+  by Approve or Approve with fixes, starts a new handoff and earns its own row. Read that file before
+  writing a row for a build that has been here before.
 - **A log only helps if reviews get logged.** The whole record rests on a row being written each time a
   review lands. A skipped row is invisible: the send-back rate counts a handoff that never entered the log
   as if it never happened, and the audit cannot sample a review it cannot see. The owner and the "write it
@@ -179,8 +179,19 @@ Be honest about the edges.
 - Named a gap populating the log surfaced: the queue SOP and this spec describe a returning build two
   different ways, and neither file settles which reading wins.
 
+## What changed in v3
+
+- The returning-build question is settled, one day after v2 named it as open.
+  `governance/what-counts-as-one-handoff.md` decides it: one row per handoff, where a handoff is one trip
+  through review, and a re-submission answering an open send-back is a new arrival rather than a new row.
+  This spec points there instead of flagging the gap.
+- Named which submissions start a new row: new work, or anything following a handoff already closed by
+  Approve or Approve with fixes.
+- The **Handed off** field added in v2 is the handoff's first arrival, which is what keeps a row's wait
+  fixed when the same build comes back.
+
 ---
 
-*v2. A living spec. It defines the one record the send-back rate, the spot-audit, the review miss rate, and
-review latency all draw on, reviewer and handoff fields included. The next pass settles what a returning
-build does to a row, the one question writing real rows could not answer from this file alone.*
+*v3. A living spec. It defines the one record the send-back rate, the spot-audit, the review miss rate, and
+review latency all draw on, reviewer and handoff fields included, and it now points at one ruling for what
+counts as a handoff. The next pass gets tested by rows somebody else wrote.*
