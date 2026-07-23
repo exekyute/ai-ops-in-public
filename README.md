@@ -33,6 +33,10 @@ themselves. The pieces are built to connect: `integration/` holds a weekly map o
 week's artifacts fit into one system, and `examples/` runs those systems end to end on a
 synthetic build. Everything uses synthetic or placeholder data.
 
+The largest of those systems is the review loop, which now spans seventeen pieces across six
+folders. `sops/the-review-loop-in-order.md` orders them by when you need them, so that set has
+a way in.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
