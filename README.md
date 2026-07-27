@@ -23,6 +23,7 @@ things well, and this repo grows one piece of each, every day:
 | `analytics/` | Metric definitions and usage-to-insight memos |
 | `integration/` | Weekly artifacts that combine the pillars into one system |
 | `examples/` | Worked, end-to-end runs of the loop on synthetic data |
+| `checks/` | Small scripts that check the repo's own claims |
 | `daily/` | One short entry per day: the idea and what shipped |
 | `log/` | Weekly synthesis of what was learned |
 

@@ -1,6 +1,6 @@
 # Start Here: The Review Loop in Order (v1)
 
-Seventeen review-side pieces now sit across six folders, plus three weekly maps in a seventh, at
+Eighteen review-side pieces now sit across six folders, plus four weekly maps in a seventh, at
 versions from v1 to v4. The folders group by pillar, which is right for the repo and no help to a
 person opening it for the first time, because nobody arrives needing "everything in `governance/`"
 and nobody's job is "governance." This file orders the same pieces by when you need them: learn the
@@ -26,6 +26,8 @@ every role assumes.
    of decided builds re-reviewed by a third person.
 6. `integration/week-04-the-loop-needs-people.md`, The Loop Needs People (v1). What it costs to run
    the loop with many builds and a pool of people.
+7. `integration/week-05-the-loop-gets-kept.md`, The Loop Gets Kept (v1). What keeping the loop turned
+   out to consist of, once there was enough of it to maintain.
 
 ## Do your part
 
@@ -78,6 +80,10 @@ Two records and the numbers read off them.
   still waiting.
 - `analytics/metric-definitions.md`, Metric Definitions (v4). The numbers read off those two records,
   with what each one can and cannot see.
+- `analytics/measure-or-test.md`, Measure or Test (v1). Why this index gets a check rather than a
+  metric, and the four rules that check reads.
+- `checks/check_index.py`. The check itself. Run it after adding, renaming, or re-versioning anything
+  named on this page.
 
 ## See it run
 
