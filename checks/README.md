@@ -1,4 +1,4 @@
-# Checks (v1)
+# Checks (v2)
 
 This folder holds one script. `check_index.py` reads `sops/the-review-loop-in-order.md` and checks
 the four rules that `analytics/measure-or-test.md` specified for it on Day 033, which are the
@@ -116,13 +116,21 @@ anybody looked.
 - **Rule 4 reads the tally as written.** The three counts get recomputed and compared. The version
   span is compared only while the opening line still phrases it as "versions from v1 to v4", and a
   rewrap or a reword drops that comparison with no change on screen.
-- **Nothing runs it automatically.** No hook, no CI, no schedule. The first run happened because
-  somebody typed the command, so this is a habit and not a gate.
+- **CI runs it on every push, and only it.** A GitHub Actions workflow,
+  [checks.yml](../.github/workflows/checks.yml), runs the script on each push and pull request, so a
+  broken pointer now fails the build where anyone can see it. That closes the gap the v1 of this file named, that
+  nothing ran the check automatically. What CI cannot do is make anyone read a red build, and the
+  meaning-level drift above stays outside its reach either way.
 - **It checks one index.** Every rule reads `sops/the-review-loop-in-order.md` and stops there. Every
   other cross-reference in the repo, and there are many, is still unverified.
 
+## What changed in v2
+
+- The check is enforced now. [checks.yml](../.github/workflows/checks.yml) runs it on every push and
+  pull request, one day after v1 shipped with "nothing runs it automatically" in its limits. That limit is deleted
+  because it stopped being true, and the wiring is recorded in its place.
+
 ---
 
-*v1. A living doc. The next pass records the first drift the check caught that nobody predicted,
-whether typing the command survived as a habit, and what it would take to point the same four rules
-at more than one file.*
+*v2. A living doc. The next pass records the first drift the check caught that nobody predicted, and
+what it would take to point the same four rules at more than one file.*
