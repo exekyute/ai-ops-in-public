@@ -1,6 +1,6 @@
 # Start Here: The Review Loop in Order (v1)
 
-Eighteen review-side pieces now sit across six folders, plus four weekly maps in a seventh, at
+Nineteen review-side pieces now sit across six folders, plus four weekly maps in a seventh, at
 versions from v1 to v4. The folders group by pillar, which is right for the repo and no help to a
 person opening it for the first time, because nobody arrives needing "everything in `governance/`"
 and nobody's job is "governance." This file orders the same pieces by when you need them: learn the
@@ -35,6 +35,9 @@ Grouped by role. Read your row, skip the others until you take on that role.
 
 **Builder, before every handoff**
 
+- `enablement/where-a-human-stays-in-the-loop.md`, Where a Human Stays in the Loop (v1). Only for a
+  build that calls a model, and decided while you build the step: where a person looks at what the
+  model produced, and the line you record so the choice can be reviewed.
 - `enablement/builder-self-check.md`, Builder Self-Check Before Handoff (v1). The prep only you can
   do, run before you hand anything over.
 - `sops/hand-off-a-build-for-review.md`, SOP: Hand Off a Build for Review (v1). What goes in the
@@ -50,6 +53,9 @@ Grouped by role. Read your row, skip the others until you take on that role.
   a passing run cannot answer, and what to open for each.
 - `enablement/reviewing-without-rubber-stamping.md`, Reviewing Without Rubber-Stamping (v1). Read this
   first if you have never reviewed here before.
+- `enablement/where-a-human-stays-in-the-loop.md`, Where a Human Stays in the Loop (v1). Open it on a
+  build that calls a model; the AI-steps lines are checked against the builder's recorded placement,
+  not against your own sense of the stakes.
 
 **Whoever assigns reviews**
 
