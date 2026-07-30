@@ -1,6 +1,6 @@
 # Start Here: The Review Loop in Order (v1)
 
-Nineteen review-side pieces now sit across six folders, plus four weekly maps in a seventh, at
+Twenty review-side pieces now sit across six folders, plus four weekly maps in a seventh, at
 versions from v1 to v4. The folders group by pillar, which is right for the repo and no help to a
 person opening it for the first time, because nobody arrives needing "everything in `governance/`"
 and nobody's job is "governance." This file orders the same pieces by when you need them: learn the
@@ -38,6 +38,9 @@ Grouped by role. Read your row, skip the others until you take on that role.
 - `enablement/where-a-human-stays-in-the-loop.md`, Where a Human Stays in the Loop (v1). Only for a
   build that calls a model, and decided while you build the step: where a person looks at what the
   model produced, and the line you record so the choice can be reviewed.
+- `standards/prompt-and-model-change-control.md`, Prompt and Model Change Control (v1). The bar for
+  editing a prompt, a model version, or anything else a model step is configured with, including the
+  changes the provider makes for you.
 - `enablement/builder-self-check.md`, Builder Self-Check Before Handoff (v1). The prep only you can
   do, run before you hand anything over.
 - `sops/hand-off-a-build-for-review.md`, SOP: Hand Off a Build for Review (v1). What goes in the
@@ -56,6 +59,9 @@ Grouped by role. Read your row, skip the others until you take on that role.
 - `enablement/where-a-human-stays-in-the-loop.md`, Where a Human Stays in the Loop (v1). Open it on a
   build that calls a model; the AI-steps lines are checked against the builder's recorded placement,
   not against your own sense of the stakes.
+- `standards/prompt-and-model-change-control.md`, Prompt and Model Change Control (v1). When the
+  handoff is a prompt or model edit rather than a build, its section 5 names which checklist lines
+  re-open and which stand.
 
 **Whoever assigns reviews**
 
