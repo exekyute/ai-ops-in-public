@@ -1,6 +1,6 @@
 # Start Here: The Review Loop in Order (v1)
 
-Twenty-one review-side pieces now sit across six folders, plus four weekly maps in a seventh, at
+Twenty-one review-side pieces now sit across six folders, plus five weekly maps in a seventh, at
 versions from v1 to v4. The folders group by pillar, which is right for the repo and no help to a
 person opening it for the first time, because nobody arrives needing "everything in `governance/`"
 and nobody's job is "governance." This file orders the same pieces by when you need them: learn the
@@ -28,6 +28,8 @@ every role assumes.
    the loop with many builds and a pool of people.
 7. `integration/week-05-the-loop-gets-kept.md`, The Loop Gets Kept (v1). What keeping the loop turned
    out to consist of, once there was enough of it to maintain.
+8. `integration/week-06-the-loop-meets-the-model.md`, The Loop Meets the Model (v1). What changes when
+   a step in the build calls a model, and where a configuration change rejoins the loop.
 
 ## Do your part
 
