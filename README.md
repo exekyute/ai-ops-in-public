@@ -70,6 +70,7 @@ Anyone running AI inside a team has to do five things well, and this repo grows 
 | [`integration/`](integration/) | Weekly maps that tie each week's pieces into one system |
 | [`examples/`](examples/) | End-to-end runs of the loop on synthetic builds |
 | [`checks/`](checks/) | The script and CI that verify the repo's own claims |
+| [`automations/`](automations/) | Workflows that run the procedures the rest of this describes |
 | [`daily/`](daily/) | The running narrative, one entry per day |
 | [`log/`](log/) | Weekly syntheses of what was learned |
 
