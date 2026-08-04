@@ -1,6 +1,6 @@
 # Start Here: The Review Loop in Order (v1)
 
-Twenty-one review-side pieces now sit across six folders, plus five weekly maps in a seventh, at
+Twenty-two review-side pieces now sit across six folders, plus five weekly maps in a seventh, at
 versions from v1 to v4. The folders group by pillar, which is right for the repo and no help to a
 person opening it for the first time, because nobody arrives needing "everything in `governance/`"
 and nobody's job is "governance." This file orders the same pieces by when you need them: learn the
@@ -99,6 +99,9 @@ Two records and the numbers read off them.
 - `analytics/evals-and-the-review-loop.md`, Evals and the Review Loop (v1). What a saved set of graded
   inputs can and cannot tell you about a model step, the two bars it has to clear, and why it gates a
   change rather than a run.
+- `governance/maintenance-policy.md`, Maintenance Policy (v1). What this repo owes after the daily
+  cadence stops, how to read a living document's next-pass line once nothing is scheduled, and what
+  would bring the work back.
 - `checks/check_index.py`. The check itself. Run it after adding, renaming, or re-versioning anything
   named on this page.
 

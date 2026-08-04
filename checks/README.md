@@ -116,11 +116,11 @@ anybody looked.
 - **Rule 4 reads the tally as written.** The three counts get recomputed and compared. The version
   span is compared only while the opening line still phrases it as "versions from v1 to v4", and a
   rewrap or a reword drops that comparison with no change on screen.
-- **CI runs it on every push, and only it.** A GitHub Actions workflow,
-  [checks.yml](../.github/workflows/checks.yml), runs the script on each push and pull request, so a
-  broken pointer now fails the build where anyone can see it. That closes the gap the v1 of this file named, that
-  nothing ran the check automatically. What CI cannot do is make anyone read a red build, and the
-  meaning-level drift above stays outside its reach either way.
+- **CI cannot make anyone read a red build.** A GitHub Actions workflow,
+  [checks.yml](../.github/workflows/checks.yml), runs the script on each push and pull request, on a
+  weekly schedule, and on demand, so a broken pointer fails the build where anyone can see it. That
+  closes the gap the v1 of this file named, that nothing ran the check automatically. What CI cannot do
+  is make a person open the result, and the meaning-level drift above stays outside its reach either way.
 - **It checks one index.** Every rule reads `sops/the-review-loop-in-order.md` and stops there. Every
   other cross-reference in the repo, and there are many, is still unverified.
 
@@ -130,7 +130,15 @@ anybody looked.
   pull request, one day after v1 shipped with "nothing runs it automatically" in its limits. That limit is deleted
   because it stopped being true, and the wiring is recorded in its place.
 
+## What changed in v3
+
+- Added a weekly schedule and a manual trigger to [checks.yml](../.github/workflows/checks.yml). Writing
+  [the maintenance policy](../governance/maintenance-policy.md) is what turned this up: the policy leans
+  on the check as the one obligation that does not depend on a person remembering, and a workflow
+  triggered only by pushes stops firing the moment a repo stops receiving them. Push-only enforcement
+  covers a repo under active development and expires exactly when it is needed instead.
+
 ---
 
-*v2. A living doc. The next pass records the first drift the check caught that nobody predicted, and
+*v3. A living doc. The next pass records the first drift the check caught that nobody predicted, and
 what it would take to point the same four rules at more than one file.*
