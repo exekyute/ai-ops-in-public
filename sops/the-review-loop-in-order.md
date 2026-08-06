@@ -1,6 +1,6 @@
 # Start Here: The Review Loop in Order (v1)
 
-Twenty-two review-side pieces now sit across six folders, plus five weekly maps in a seventh, at
+Twenty-three review-side pieces now sit across six folders, plus five weekly maps in a seventh, at
 versions from v1 to v4. The folders group by pillar, which is right for the repo and no help to a
 person opening it for the first time, because nobody arrives needing "everything in `governance/`"
 and nobody's job is "governance." This file orders the same pieces by when you need them: learn the
@@ -115,6 +115,14 @@ Three worked runs on synthetic builds. Read one when a piece above reads as abst
   metrics cannot see, caught later by the spot-audit.
 - `examples/a-populated-log-and-queue.md`, A Populated Log and Queue (v1). Both records filled in with
   rows, and the three review-side metrics computed off them.
+
+## Bringing this to a team
+
+Read this one before any of the above if nobody here has run the loop yet.
+
+- `enablement/lifting-this-into-a-real-team.md`, Lifting This Into a Real Team (v1). Which three pieces
+  to take first, what to rename before the first handoff, and the six things that break in the first
+  two weeks.
 
 ## Deliberately not here
 
