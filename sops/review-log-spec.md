@@ -1,4 +1,4 @@
-# The Review Log (v3)
+# The Review Log (v4)
 
 Two documents in this repo already lean on a record they never define. The send-back rate
 (`analytics/metric-definitions.md`) counts one row per handoff: the build, the first-review outcome, and
@@ -96,7 +96,7 @@ place for them so the metric has somewhere to read from when it arrives.
   the checklist, and adds one row here with the build, their name, the outcome, and the date. Same moment,
   one row. Later is when it gets skipped.
 - **Keep it somewhere you can query.** A single sheet or a table, one row per handoff, with columns for the
-  four required fields and space for the optional ones. The point of the log is that you can filter and
+  five required fields and space for the optional ones. The point of the log is that you can filter and
   count it, so keep it in a form that filters and counts by date, by outcome, and by reviewer.
 - **One row per handoff, and not one per review.** A re-review finds the existing row and updates the final
   outcome. It does not add a second row for the same handoff. If you cannot tell a first review from a
@@ -190,8 +190,19 @@ Be honest about the edges.
 - The **Handed off** field added in v2 is the handoff's first arrival, which is what keeps a row's wait
   fixed when the same build comes back.
 
+## What changed in v4
+
+- Corrected a stale count. The "keep it somewhere you can query" step still asked for columns for the four
+  required fields. There have been five since v2 added **Handed off**, which updated the field list and
+  missed this line. It said four for seventeen days, across two version bumps, in a file the review side
+  reads more than any other.
+- Worth naming, because the fix is smaller than the lesson: nothing here could have caught it.
+  `checks/check_index.py` tests paths, titles, versions, and one opening tally on one index page. A spec
+  disagreeing with itself in prose is exactly the meaning-level drift the check's own notes say a person
+  has to find, and no person opened this line for two and a half weeks.
+
 ---
 
-*v3. A living spec. It defines the one record the send-back rate, the spot-audit, the review miss rate, and
+*v4. A living spec. It defines the one record the send-back rate, the spot-audit, the review miss rate, and
 review latency all draw on, reviewer and handoff fields included, and it now points at one ruling for what
 counts as a handoff. The next pass gets tested by rows somebody else wrote.*

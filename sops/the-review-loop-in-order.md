@@ -72,7 +72,7 @@ Grouped by role. Read your row, skip the others until you take on that role.
 
 **Whoever keeps the review log**
 
-- `sops/review-log-spec.md`, The Review Log (v3). What a row is and which fields it carries.
+- `sops/review-log-spec.md`, The Review Log (v4). What a row is and which fields it carries.
 - `enablement/keeping-the-review-log.md`, Keeping the Review Log (v1). The write-time check to run
   before you write any row.
 - `governance/what-counts-as-one-handoff.md`, What Counts as One Handoff (v1). The ruling behind that
@@ -89,7 +89,7 @@ Grouped by role. Read your row, skip the others until you take on that role.
 
 Two records and the numbers read off them.
 
-- `sops/review-log-spec.md`, The Review Log (v3). The permanent record, one row per handoff.
+- `sops/review-log-spec.md`, The Review Log (v4). The permanent record, one row per handoff.
 - `sops/run-the-review-queue.md`, SOP: Run the Review Queue (v2). The live record, one row per arrival
   still waiting.
 - `analytics/metric-definitions.md`, Metric Definitions (v4). The numbers read off those two records,
