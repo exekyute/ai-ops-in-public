@@ -13,6 +13,11 @@ packet through a form, the submission is checked against what the SOP requires, 
 opens a row in the review queue. An incomplete one is returned immediately with the list of what is
 missing.
 
+![The handoff intake workflow on the n8n canvas: a form trigger feeds a code node that checks the packet, then an IF splits into an accepted branch that opens a queue row, notifies the reviewer pool and confirms the handoff, and a returned branch that records the attempt and hands it back to the builder.](canvas.png)
+
+The branch is the whole file. Everything above the split is reading what was submitted; everything after
+it is the SOP's rule about partial packets, running.
+
 ## What it does
 
 1. **Receive a handoff packet.** A form collecting exactly what

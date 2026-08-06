@@ -6,24 +6,83 @@
       "name": "Receive a handoff packet",
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.6,
-      "position": [0, 300],
+      "position": [
+        0,
+        304
+      ],
       "parameters": {
         "authentication": "none",
         "formTitle": "Hand off a build for review",
         "formDescription": "A handoff is complete or it is not a handoff. Every field below is part of the packet the reviewer needs to start.",
         "formFields": {
           "values": [
-            { "fieldName": "Build name", "fieldLabel": "Build name", "fieldType": "text", "placeholder": "e.g. intake-webhook-route-to-vendor", "requiredField": true },
-            { "fieldName": "Builder", "fieldLabel": "Builder", "fieldType": "text", "placeholder": "Who built it", "requiredField": true },
-            { "fieldName": "Where to open and run it", "fieldLabel": "Where to open and run it", "fieldType": "text", "placeholder": "A link or a path the reviewer can actually open", "requiredField": true },
-            { "fieldName": "What it does and why", "fieldLabel": "What it does and why", "fieldType": "textarea", "placeholder": "One paragraph. This is the goal the review checks against.", "requiredField": true },
-            { "fieldName": "Owner", "fieldLabel": "Owner", "fieldType": "text", "placeholder": "One person, not a team", "requiredField": true },
-            { "fieldName": "Rollback plan", "fieldLabel": "Rollback plan", "fieldType": "textarea", "placeholder": "A versioned definition to revert to, plus a safe stop", "requiredField": true },
-            { "fieldName": "Self-check", "fieldLabel": "Self-check", "fieldType": "checkbox", "fieldOptions": { "values": [{ "option": "Ran a good input" }, { "option": "Ran a failing input" }] }, "limitSelection": "unlimited" }
+            {
+              "fieldName": "Build name",
+              "fieldLabel": "Build name",
+              "fieldType": "text",
+              "placeholder": "e.g. intake-webhook-route-to-vendor",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Builder",
+              "fieldLabel": "Builder",
+              "fieldType": "text",
+              "placeholder": "Who built it",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Where to open and run it",
+              "fieldLabel": "Where to open and run it",
+              "fieldType": "text",
+              "placeholder": "A link or a path the reviewer can actually open",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What it does and why",
+              "fieldLabel": "What it does and why",
+              "fieldType": "textarea",
+              "placeholder": "One paragraph. This is the goal the review checks against.",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Owner",
+              "fieldLabel": "Owner",
+              "fieldType": "text",
+              "placeholder": "One person, not a team",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Rollback plan",
+              "fieldLabel": "Rollback plan",
+              "fieldType": "textarea",
+              "placeholder": "A versioned definition to revert to, plus a safe stop",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Self-check",
+              "fieldLabel": "Self-check",
+              "fieldType": "checkbox",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Ran a good input"
+                  },
+                  {
+                    "option": "Ran a failing input"
+                  }
+                ]
+              },
+              "limitSelection": "unlimited"
+            }
           ]
         },
         "responseMode": "lastNode",
-        "options": { "appendAttribution": false, "buttonLabel": "Hand it off", "path": "handoff-intake", "ignoreBots": true }
+        "options": {
+          "appendAttribution": false,
+          "buttonLabel": "Hand it off",
+          "path": "handoff-intake",
+          "ignoreBots": true
+        }
       }
     },
     {
@@ -31,7 +90,10 @@
       "name": "Check the packet against the SOP",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [220, 300],
+      "position": [
+        224,
+        304
+      ],
       "parameters": {
         "mode": "runOnceForEachItem",
         "jsCode": "const submitted = $input.item.json;\nconst asText = (value) => (typeof value === 'string' ? value.trim() : '');\nconst packet = {\n  build: asText(submitted['Build name']),\n  builder: asText(submitted['Builder']),\n  buildLocation: asText(submitted['Where to open and run it']),\n  description: asText(submitted['What it does and why']),\n  owner: asText(submitted['Owner']),\n  rollback: asText(submitted['Rollback plan'])\n};\nconst raw = submitted['Self-check'];\nconst confirmed = Array.isArray(raw) ? raw : asText(raw).split(',').map((part) => part.trim()).filter(Boolean);\nconst required = [\n  ['build', 'a build name'],\n  ['builder', 'the name of whoever built it'],\n  ['buildLocation', 'somewhere the reviewer can open and run the build'],\n  ['description', 'a one-paragraph description of what it does and why'],\n  ['owner', 'one named owner'],\n  ['rollback', 'a rollback plan']\n];\nconst missing = required.filter((entry) => !packet[entry[0]]).map((entry) => entry[1]);\n['Ran a good input', 'Ran a failing input'].forEach((run) => {\n  if (!confirmed.includes(run)) { missing.push('confirmation that you ' + run.toLowerCase()); }\n});\nreturn { json: Object.assign({}, packet, {\n  confirmations: confirmed.join('; '),\n  missing: missing.join('; '),\n  missingCount: missing.length,\n  complete: missing.length === 0,\n  handedOffAt: new Date().toISOString()\n}) };"
@@ -42,12 +104,26 @@
       "name": "Is the packet complete?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [440, 300],
+      "position": [
+        448,
+        304
+      ],
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
           "conditions": [
-            { "leftValue": "={{ $json.complete }}", "operator": { "type": "boolean", "operation": "true", "singleValue": true } }
+            {
+              "leftValue": "={{ $json.complete }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
           ],
           "combinator": "and"
         }
@@ -58,11 +134,18 @@
       "name": "Open a queue row",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
-      "position": [680, 180],
+      "position": [
+        768,
+        160
+      ],
       "parameters": {
         "resource": "row",
         "operation": "insert",
-        "dataTableId": { "__rl": true, "mode": "name", "value": "review_queue" },
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "review_queue"
+        },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
@@ -77,15 +160,87 @@
             "reviewer": ""
           },
           "schema": [
-            { "id": "build", "displayName": "build", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "builder", "displayName": "builder", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "build_location", "displayName": "build_location", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "description", "displayName": "description", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "owner", "displayName": "owner", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "rollback", "displayName": "rollback", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "handed_off_at", "displayName": "handed_off_at", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "status", "displayName": "status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "reviewer", "displayName": "reviewer", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+            {
+              "id": "build",
+              "displayName": "build",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "builder",
+              "displayName": "builder",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "build_location",
+              "displayName": "build_location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "owner",
+              "displayName": "owner",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rollback",
+              "displayName": "rollback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "handed_off_at",
+              "displayName": "handed_off_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviewer",
+              "displayName": "reviewer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
           ]
         }
       }
@@ -95,17 +250,27 @@
       "name": "Notify the reviewer pool",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.5,
-      "position": [900, 180],
+      "position": [
+        992,
+        160
+      ],
       "onError": "continueRegularOutput",
       "parameters": {
         "resource": "message",
         "operation": "post",
         "authentication": "accessToken",
         "select": "channel",
-        "channelId": { "__rl": true, "mode": "name", "value": "#review-queue" },
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#review-queue"
+        },
         "messageType": "text",
         "text": "=A build is waiting for review.\n\n*Build:* {{ $('Check the packet against the SOP').item.json.build }}\n*Builder:* {{ $('Check the packet against the SOP').item.json.builder }}\n*Owner:* {{ $('Check the packet against the SOP').item.json.owner }}\n*Open it:* {{ $('Check the packet against the SOP').item.json.buildLocation }}\n\n{{ $('Check the packet against the SOP').item.json.description }}\n\nWhoever takes it must not be the builder. Assign from the queue, oldest first.",
-        "otherOptions": { "includeLinkToWorkflow": false, "mrkdwn": true }
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "mrkdwn": true
+        }
       }
     },
     {
@@ -113,7 +278,10 @@
       "name": "Confirm the handoff",
       "type": "n8n-nodes-base.form",
       "typeVersion": 2.5,
-      "position": [1120, 180],
+      "position": [
+        1264,
+        160
+      ],
       "parameters": {
         "operation": "completion",
         "respondWith": "text",
@@ -126,11 +294,18 @@
       "name": "Record the incomplete submission",
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
-      "position": [680, 440],
+      "position": [
+        800,
+        576
+      ],
       "parameters": {
         "resource": "row",
         "operation": "insert",
-        "dataTableId": { "__rl": true, "mode": "name", "value": "review_queue" },
+        "dataTableId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "review_queue"
+        },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
@@ -145,15 +320,87 @@
             "reviewer": ""
           },
           "schema": [
-            { "id": "build", "displayName": "build", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "builder", "displayName": "builder", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "build_location", "displayName": "build_location", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "description", "displayName": "description", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "owner", "displayName": "owner", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "rollback", "displayName": "rollback", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "handed_off_at", "displayName": "handed_off_at", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "status", "displayName": "status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
-            { "id": "reviewer", "displayName": "reviewer", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+            {
+              "id": "build",
+              "displayName": "build",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "builder",
+              "displayName": "builder",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "build_location",
+              "displayName": "build_location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "owner",
+              "displayName": "owner",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rollback",
+              "displayName": "rollback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "handed_off_at",
+              "displayName": "handed_off_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviewer",
+              "displayName": "reviewer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
           ]
         }
       }
@@ -163,7 +410,10 @@
       "name": "Return it to the builder",
       "type": "n8n-nodes-base.form",
       "typeVersion": 2.5,
-      "position": [900, 440],
+      "position": [
+        1104,
+        576
+      ],
       "parameters": {
         "operation": "completion",
         "respondWith": "text",
@@ -176,12 +426,15 @@
       "name": "Sticky Note c8fa8471",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [-50, 250],
+      "position": [
+        -32,
+        -544
+      ],
       "parameters": {
         "content": "## Handoff intake\n\nThis runs the repo's own handoff SOP. A builder submits the packet, the packet is checked against what the SOP requires, and only a complete one opens a row in the review queue.\n\nA partial packet is returned to the builder with the list of what is missing. Both outcomes are recorded, so a returned submission is visible rather than lost.",
         "color": 1,
-        "width": 740,
-        "height": 200
+        "width": 1028,
+        "height": 264
       }
     },
     {
@@ -189,12 +442,15 @@
       "name": "Sticky Note 5332c1da",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [630, 130],
+      "position": [
+        672,
+        -16
+      ],
       "parameters": {
         "content": "## Accepted\n\nOne queue row per arrival, carrying the handoff time. The review log row is NOT written here: the log spec writes that row when the first review lands, and copies this handoff time onto it then.",
         "color": 7,
-        "width": 740,
-        "height": 200
+        "width": 788,
+        "height": 360
       }
     },
     {
@@ -202,39 +458,98 @@
       "name": "Sticky Note e9054e18",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [630, 390],
+      "position": [
+        672,
+        400
+      ],
       "parameters": {
         "content": "## Returned\n\nThe SOP is explicit that a partial packet is not a handoff. This branch records the attempt and hands the builder the exact list of what was missing.",
         "color": 7,
-        "width": 520,
-        "height": 200
+        "width": 680,
+        "height": 360
       }
     }
   ],
   "connections": {
     "Receive a handoff packet": {
-      "main": [[{ "node": "Check the packet against the SOP", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Check the packet against the SOP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Check the packet against the SOP": {
-      "main": [[{ "node": "Is the packet complete?", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Is the packet complete?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Is the packet complete?": {
       "main": [
-        [{ "node": "Open a queue row", "type": "main", "index": 0 }],
-        [{ "node": "Record the incomplete submission", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Open a queue row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Record the incomplete submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Open a queue row": {
-      "main": [[{ "node": "Notify the reviewer pool", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Notify the reviewer pool",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Notify the reviewer pool": {
-      "main": [[{ "node": "Confirm the handoff", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Confirm the handoff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Record the incomplete submission": {
-      "main": [[{ "node": "Return it to the builder", "type": "main", "index": 0 }]]
+      "main": [
+        [
+          {
+            "node": "Return it to the builder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "settings": { "executionOrder": "v1" },
+  "settings": {
+    "executionOrder": "v1"
+  },
   "pinData": {},
-  "meta": { "templateCredsSetupCompleted": false }
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
 }
