@@ -1,6 +1,6 @@
 # Start Here: The Review Loop in Order (v1)
 
-Twenty-three review-side pieces now sit across six folders, plus five weekly maps in a seventh, at
+Twenty-four review-side pieces now sit across six folders, plus five weekly maps in a seventh, at
 versions from v1 to v4. The folders group by pillar, which is right for the repo and no help to a
 person opening it for the first time, because nobody arrives needing "everything in `governance/`"
 and nobody's job is "governance." This file orders the same pieces by when you need them: learn the
@@ -102,6 +102,8 @@ Two records and the numbers read off them.
 - `governance/maintenance-policy.md`, Maintenance Policy (v1). What this repo owes after the daily
   cadence stops, how to read a living document's next-pass line once nothing is scheduled, and what
   would bring the work back.
+- `analytics/the-repo-by-the-numbers.md`, The Repo by the Numbers (v1). What counting this tree turns
+  up, including how much of it was ever revised, with the command behind every figure.
 - `checks/check_index.py`. The check itself. Run it after adding, renaming, or re-versioning anything
   named on this page.
 
