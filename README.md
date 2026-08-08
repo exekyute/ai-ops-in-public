@@ -30,17 +30,18 @@ decisions to check that the reviews themselves hold up.
 
 ## Start here
 
-1. [The review loop, in order](sops/the-review-loop-in-order.md): every piece of the system, ordered
-   by when you would need it. If you read one thing, read this.
-2. [The index check](checks/README.md): the script and CI that keep that page honest, including the
-   first run, which failed and caught real drift.
-3. [A populated log and queue](examples/a-populated-log-and-queue.md): the two records with rows in
-   them, and three metrics computed off the rows by hand.
-4. [The automation standard](standards/automation-standards.md) and
+1. [The field guide](FIELD-GUIDE.md): the whole thing in ten minutes, including the loop drawn, the ten
+   files worth your time, and which parts of this are real and which are authored. If you read one
+   thing, read this.
+2. [The review loop, in order](sops/the-review-loop-in-order.md): every piece of the system, ordered
+   by when you would need it.
+3. [The automation standard](standards/automation-standards.md) and
    [the review checklist](governance/ai-build-review-checklist.md): the pair a team could lift today,
    each under a thousand words.
-5. [A rubber-stamped approval](examples/a-rubber-stamped-approval.md): the failure the metrics cannot
+4. [A rubber-stamped approval](examples/a-rubber-stamped-approval.md): the failure the metrics cannot
    see, and the guardrail that catches it.
+5. [The repo by the numbers](analytics/the-repo-by-the-numbers.md): what counting this tree turns up,
+   with the command behind every figure.
 
 ## Ground rules
 
