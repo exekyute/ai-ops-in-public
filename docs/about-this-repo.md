@@ -9,10 +9,10 @@ Analyze, Integrate, Reflect. The aim is operational maturity, not demos. Most of
 one system, a review loop that takes an automation from "someone says it is done" to a decision a team
 can stand behind.
 
-**Complete and maintained.** The daily cadence has ended. The check still runs weekly, a red result
-gets fixed, and a factual error still earns a correction and a version bump.
-[The maintenance policy](../governance/maintenance-policy.md) says exactly what that means and what
-would reopen the work.
+**Complete and maintained.** The daily cadence has ended. A factual error still earns a correction and
+a version bump, and the index check stays runnable on any clone.
+[The maintenance policy](../governance/maintenance-policy.md) says exactly what that means, what it
+does not promise, and what would reopen the work.
 
 ## The loop
 

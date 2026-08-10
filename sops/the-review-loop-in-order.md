@@ -99,7 +99,7 @@ Two records and the numbers read off them.
 - `analytics/evals-and-the-review-loop.md`, Evals and the Review Loop (v1). What a saved set of graded
   inputs can and cannot tell you about a model step, the two bars it has to clear, and why it gates a
   change rather than a run.
-- `governance/maintenance-policy.md`, Maintenance Policy (v1). What this repo owes after the daily
+- `governance/maintenance-policy.md`, Maintenance Policy (v2). What this repo owes after the daily
   cadence stops, how to read a living document's next-pass line once nothing is scheduled, and what
   would bring the work back.
 - `analytics/the-repo-by-the-numbers.md`, The Repo by the Numbers (v1). What counting this tree turns

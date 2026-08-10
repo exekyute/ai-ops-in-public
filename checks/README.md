@@ -1,4 +1,4 @@
-# Checks (v2)
+# Checks (v4)
 
 This folder holds one script. `check_index.py` reads `sops/the-review-loop-in-order.md` and checks
 the four rules that `analytics/measure-or-test.md` specified for it on Day 033, which are the
@@ -123,6 +123,10 @@ anybody looked.
   is make a person open the result, and the meaning-level drift above stays outside its reach either way.
 - **It checks one index.** Every rule reads `sops/the-review-loop-in-order.md` and stops there. Every
   other cross-reference in the repo, and there are many, is still unverified.
+- **The schedule expires; the script does not.** GitHub disables scheduled workflows in a public
+  repository after sixty days without activity, so on a finished repo the weekly run stops on its own
+  and the badge freezes on its last result. Running `python checks/check_index.py` on a clone is the
+  version of this check that keeps working.
 
 ## What changed in v2
 
@@ -138,7 +142,17 @@ anybody looked.
   triggered only by pushes stops firing the moment a repo stops receiving them. Push-only enforcement
   covers a repo under active development and expires exactly when it is needed instead.
 
+## What changed in v4
+
+- Named the schedule's expiry in the limits. A scheduled workflow in a public repository stops firing
+  after sixty days without activity, so the CI line above describes a control with an end date, while
+  the script it runs has none.
+- Corrected this file's own version. The v3 pass bumped the footer and added a changelog entry and left
+  the title reading v2, so the file disagreed with itself for six days. Nothing here could have caught
+  it: `checks/` sits outside the folders the index check reads, and the check compares an index against
+  H1s rather than a file against itself.
+
 ---
 
-*v3. A living doc. The next pass records the first drift the check caught that nobody predicted, and
+*v4. A living doc. The next pass records the first drift the check caught that nobody predicted, and
 what it would take to point the same four rules at more than one file.*

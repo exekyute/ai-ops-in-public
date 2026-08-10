@@ -3,8 +3,8 @@
 [![checks](https://github.com/exekyute/ai-ops-in-public/actions/workflows/checks.yml/badge.svg)](https://github.com/exekyute/ai-ops-in-public/actions/workflows/checks.yml)
 
 One real artifact a day for 49 days, 2026-06-22 to 2026-08-09, building a review loop for AI-powered
-automation. **Complete and maintained**: the check still runs weekly, and
-[the maintenance policy](governance/maintenance-policy.md) says what that means.
+automation. **Complete and maintained**: [the maintenance policy](governance/maintenance-policy.md)
+says what is still owed, what is not, and what would reopen the work.
 
 New here? [The field guide](FIELD-GUIDE.md) covers the repo in ten minutes, and
 [what this repo was](docs/about-this-repo.md) carries the full orientation. What follows is the

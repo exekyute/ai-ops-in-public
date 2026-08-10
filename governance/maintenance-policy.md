@@ -1,4 +1,4 @@
-# Maintenance Policy (v1)
+# Maintenance Policy (v2)
 
 Every file in this repo whose title carries a version number ends the same way: an italic line repeating that version and calling the file living. Thirty-one do as this policy ships, and twenty-two of those go further and name what the next pass will do. Treat the counts as of today and the rule as permanent, since more versioned files land before the last entry. [The spot-audit guardrail](review-spot-audit.md) checks the reviewer the way [the review checklist](ai-build-review-checklist.md), the gate a build passes before it goes live, checks the builder, and its next pass runs a real audit against a filled log.
 
@@ -26,7 +26,7 @@ First the word. A defect is a place where this repo does not do what it says it 
 
 Three obligations, and they start when the last entry ships. They cover every versioned piece and the automation. The daily entries and the weekly logs carry no version because they are dated records, so a factual error in one earns a dated note under the claim it corrects and nothing is rewritten.
 
-1. **The CI stays on, and a red check gets fixed.** [`check_index.py`](../checks/check_index.py), the index check, reads the start-here index and tests four mechanical claims it makes about the tree: every cited path resolves, every entry matches its file's H1, every in-scope file is indexed, and the opening tally recomputes. [The checks workflow](../.github/workflows/checks.yml) runs it on every push and pull request, on a weekly schedule, and on demand. Writing this obligation earned the schedule, since a workflow triggered by pushes alone stops firing the week it is needed instead. A failure names what broke, except on the tally rule, which reports counts rather than a file.
+1. **The check stays runnable, and a red result gets fixed.** [`check_index.py`](../checks/check_index.py), the index check, reads the start-here index and tests four mechanical claims it makes about the tree: every cited path resolves, every entry matches its file's H1, every in-scope file is indexed, and the opening tally recomputes. [The checks workflow](../.github/workflows/checks.yml) runs it on push, on pull request, on a weekly schedule, and on demand. That schedule has a fuse. GitHub disables scheduled workflows in a public repository after sixty days without activity, so on a repo that has stopped taking commits the weekly run switches itself off, which is this obligation's own failure mode arriving one level further out than the version that named it. What does not expire is the script: standard-library Python, a second to run on a clone, no setup. The durable promise is that the check remains correct and runnable by anybody, rather than that somebody here keeps watching it. A failure names what broke, except on the tally rule, which reports counts rather than a file.
 2. **A factual error gets corrected, and the correction bumps the file's version.** A wrong pointer, an internal link that resolves to nothing, a claim contradicted by another file in this tree, or a claim about anything outside this repo that a reader can show is false. Showing it means naming the thing that contradicts it. Disagreeing with the reading is not showing. Each versioned piece carries its version in the H1 and repeats it in the footer, so a correction that arrives without a bump is a silent edit to a record.
 3. **A dead external link gets repaired, or removed if nothing replaces it.** The whole tree holds three external links, all pointing at this repo's own GitHub, so this obligation is small and still owed.
 
@@ -71,7 +71,7 @@ Three conditions, each naming what it would produce. A reopen condition that doe
 
 A policy cannot make anybody maintain anything. That is the ceiling every guardrail here has already named, and this one inherits it: the checklist can be skipped, the audit run lazily, and this file ignored by the person who wrote it.
 
-CI narrows that ceiling in one place. The check now runs weekly whether or not anybody touches the repo, so drift gets found without a person deciding to look, and a red result shows on the badge at the top of [the front page](../README.md), the entry point carrying the check's status. What a schedule cannot supply is somebody willing to open the result, and the four rules read one index, so a green badge is a narrow claim rather than a clean bill.
+CI narrows that ceiling for as long as the schedule survives, which outlasts the cadence by about two months and not forever. While it runs, drift gets found without a person deciding to look, and a result shows on the badge at the top of [the front page](../README.md), the entry point carrying the check's status. After the schedule lapses the badge freezes on its last run, and that is worth knowing before anybody reads one: a green badge on a finished repo says the check passed the last time it fired, not that somebody is still watching. The four rules read one index either way, so it was always a narrow claim rather than a clean bill. The reliable move is to run the script yourself.
 
 ## What this file is
 
@@ -79,6 +79,18 @@ Every other control here sits inside the loop: the checklist gates a build, the 
 
 A finished repo and an abandoned one look identical from outside on any given day. Nothing new, an old last-commit date, files unchanged since. What separates them is that somebody wrote down which of the two it is, what is still owed, and what would bring the work back. This file is that.
 
+## What changed in v2
+
+- Corrected the first obligation, which promised more than the infrastructure delivers. It read that
+  the CI stays on. GitHub disables scheduled workflows in a public repository after sixty days without
+  activity, so the weekly run expires on its own once the commits stop, and no wording here changes
+  that. The obligation now rests where it holds: the check stays correct and runnable by anybody on a
+  clone. The badge caveat moved with it.
+- This is the failure the first version of this obligation was written to catch, found again one level
+  out. A control tied to an activity dies with the activity, and a scheduled workflow turns out to be
+  tied to the repository being active. Version one fixed the trigger and inherited the same shape.
+
 ---
 
-*v1. A living policy. This line is unassigned like the rest, and the next pass records the first correction made under these rules and whether the version bump made it visible.*
+*v2. A living policy. This line is unassigned like the rest, and the next pass records the first
+correction somebody other than the author reported under these rules.*
