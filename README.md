@@ -3,9 +3,15 @@
 [![checks](https://github.com/exekyute/ai-ops-in-public/actions/workflows/checks.yml/badge.svg)](https://github.com/exekyute/ai-ops-in-public/actions/workflows/checks.yml)
 
 A daily log of building, governing, and operationalizing AI-powered automation: one real artifact a
-day since 2026-06-22, on a fixed rotation of Build, Govern, Enable, Document, Analyze, Integrate,
-Reflect. The aim is operational maturity, not demos. Most of what is here builds one system, a review
-loop that takes an automation from "someone says it is done" to a decision a team can stand behind.
+day for 49 days, 2026-06-22 to 2026-08-09, on a fixed rotation of Build, Govern, Enable, Document,
+Analyze, Integrate, Reflect. The aim is operational maturity, not demos. Most of what is here builds
+one system, a review loop that takes an automation from "someone says it is done" to a decision a team
+can stand behind.
+
+**Complete and maintained.** The daily cadence has ended. The check still runs weekly, a red result
+gets fixed, and a factual error still earns a correction and a version bump.
+[The maintenance policy](governance/maintenance-policy.md) says exactly what that means and what would
+reopen the work.
 
 ## The loop
 
