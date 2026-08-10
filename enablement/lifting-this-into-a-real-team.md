@@ -1,4 +1,4 @@
-# Lifting This Into a Real Team (v1)
+# Lifting This Into a Real Team (v2)
 
 Every other guide here tells you how to run a role you have already been given. Nobody has given you one yet. What you find is a couple of dozen review-side pieces across six folders, and nobody adopts a set that size.
 
@@ -10,7 +10,7 @@ This guide is what to take first, what to rename, and what will break.
 
 Six stages. Two things fix parts of the order: the audit needs a third person, and every number needs log rows, so those cannot come first whatever you prefer. The rest is reasoned from how the pieces depend on each other.
 
-**1. The standard, the checklist, and the reviewer's steps.** [The front page](../README.md) calls the first two the pair a team could lift today. The builder hands over a one-paragraph description of what the build does and why, a second person runs it and walks the checklist, and the checklist ends on one of three outcomes: Approve, Approve with fixes, Send back. The filled-in checklist is the message that goes back, so the review needs no separate write-up. [The ordered index](../sops/the-review-loop-in-order.md), which lists every piece by when you would need it, is where you go once you want more than these three.
+**1. The standard, the checklist, and the reviewer's steps.** [The about page](../docs/about-this-repo.md), the orientation that was the front page during the run, calls the first two the pair a team could lift today. The builder hands over a one-paragraph description of what the build does and why, a second person runs it and walks the checklist, and the checklist ends on one of three outcomes: Approve, Approve with fixes, Send back. The filled-in checklist is the message that goes back, so the review needs no separate write-up. [The ordered index](../sops/the-review-loop-in-order.md), which lists every piece by when you would need it, is where you go once you want more than these three.
 
 **2. The builder self-check.** [The builder's copy of the same bar](builder-self-check.md), run before a build is handed over. Add it when reviews start bouncing on the same few items: no plain description of what it does, no owner named, no failure case run.
 
@@ -61,6 +61,12 @@ There is one thing to do with that. [The maintenance policy](../governance/maint
 
 What you can have in week one is smaller than everything described here and complete in itself: three short documents, one review, and a decision with the reason written next to it. A build gets checked by a person who did not make it, against a written bar, and there is a record of why the answer was what it was. That is what "someone says it is done" never had. Everything else here is what you add when it stops being enough.
 
+## What changed in v2
+
+- Repointed one gloss. The start-here list that called the standard and the checklist the pair a team
+  could lift today moved from the README to [the about page](../docs/about-this-repo.md) when the
+  framework post took the front door.
+
 ---
 
-*v1. A living guide. The next pass rewrites the staging order and the two-week list against the first report from a team that actually ran this.*
+*v2. A living guide. The next pass rewrites the staging order and the two-week list against the first report from a team that actually ran this.*

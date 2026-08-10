@@ -28,7 +28,7 @@ every role assumes.
    the loop with many builds and a pool of people.
 7. `integration/week-05-the-loop-gets-kept.md`, The Loop Gets Kept (v1). What keeping the loop turned
    out to consist of, once there was enough of it to maintain.
-8. `integration/week-06-the-loop-meets-the-model.md`, The Loop Meets the Model (v1). What changes when
+8. `integration/week-06-the-loop-meets-the-model.md`, The Loop Meets the Model (v2). What changes when
    a step in the build calls a model, and where a configuration change rejoins the loop.
 
 ## Do your part
@@ -122,7 +122,7 @@ Three worked runs on synthetic builds. Read one when a piece above reads as abst
 
 Read this one before any of the above if nobody here has run the loop yet.
 
-- `enablement/lifting-this-into-a-real-team.md`, Lifting This Into a Real Team (v1). Which three pieces
+- `enablement/lifting-this-into-a-real-team.md`, Lifting This Into a Real Team (v2). Which three pieces
   to take first, what to rename before the first handoff, and the six things that break in the first
   two weeks.
 

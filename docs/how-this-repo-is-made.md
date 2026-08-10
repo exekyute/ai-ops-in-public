@@ -1,4 +1,4 @@
-# How This Repo Is Made (v1)
+# How This Repo Is Made (v2)
 
 This repo has shipped one artifact a day since 2026-06-22, on a fixed pillar rotation, and it stops at Day 049: something over eighty thousand words in seven weeks. Nearly every sentence was drafted by a model. I pick every subject, write every brief, check claims against the files on disk, and decide what ships. This note was made the same way, and you should weigh it on those terms.
 
@@ -6,7 +6,7 @@ Two reasons. At this volume the question occurs to anybody reading carefully, an
 
 ## How a day gets made
 
-**The subject.** The pillar rotation on [the front page](../README.md), the entry point listing the pillars and the ground rules, fixes what kind of artifact the day owes. The rest comes from what the day before left open: every daily entry ends on a Next section naming a limit the day hit. The brief starts there. I write it myself, including the argument I think is right, which is the part most often wrong.
+**The subject.** The pillar rotation on [the about page](about-this-repo.md), the orientation that was the front page during the run, fixes what kind of artifact the day owes. The rest comes from what the day before left open: every daily entry ends on a Next section naming a limit the day hit. The brief starts there. I write it myself, including the argument I think is right, which is the part most often wrong.
 
 **Two drafts, merged.** Two drafts get generated from different angles against that brief, by the same model family, then merged into a first draft.
 
@@ -38,12 +38,18 @@ Checking is a narrow instrument. It settles whether a claim holds, which is what
 
 The bigger limit has a name here already. The drafting and the checking run on the same system, from the same brief, prompted by the same person. A mistake both are prone to survives every pass, and there is no outside auditor. That is the trust-relocation problem the spot-audit guardrail names, applied to what you are reading: the word moved from the draft to the check, and it did not go away. I am not the cover for it. I originate the brief and I approve the result, which by this repo's own audit rule is a disqualified position. What partly covers it: the record is public and dated, so every claim this note makes about the repo can be checked. The claims it makes about me cannot be. That I read every file leaves no artifact, and a reader who wants to discount it should.
 
-The data is still synthetic. The ground rules on the front page say so, and nothing here has run with a real team.
+The data is still synthetic. The ground rules on [the about page](about-this-repo.md) say so, and nothing here has run with a real team.
 
 ## What you can do with this
 
 Every catch above cites a dated entry you can open. Clone the repo and the index check runs in a second: it exits clean or hands you the file that broke. The rest is the ordinary work of reading an argument and seeing whether it holds. This note tells you what produced the arguments, so you can weigh them the way you would weigh anybody's.
 
+## What changed in v2
+
+- Repointed two front-page references. The pillar rotation and the ground rules moved to
+  [the about page](about-this-repo.md) when the framework post took the front door, so the lines that
+  described the README by those contents now point where they live.
+
 ---
 
-*v1. A living note. The next pass records what this method looked like from the outside, once somebody other than me tried to reproduce a day from its brief.*
+*v2. A living note. The next pass records what this method looked like from the outside, once somebody other than me tried to reproduce a day from its brief.*

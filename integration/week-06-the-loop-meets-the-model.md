@@ -1,4 +1,4 @@
-# The Loop Meets the Model (v1)
+# The Loop Meets the Model (v2)
 
 This week shipped five pieces: a script, the workflow that runs it on every push, a design-time decision about where a person reads model output, a change rule that reaches a prompt, and a memo on what a saved graded set can tell you. Two assumptions had been holding this repo up, and the week broke both. The first is that a control is real once it is written down. Four index rules had sat in a memo with nothing running them, and a rule with no enforcer is a rule nobody has to keep. The second is that a build is finished once it is approved. A build with a model step in it never is. This file is that map, and it continues last week's, where the agenda came from use: writing twelve log rows broke a spec nobody had noticed was ambiguous. This week's came from the repo's own writing. One piece answered a limit an earlier footer confessed, two answered limits this same week's files opened days apart, and two closed gaps that had been sitting inside shipped rules with nobody writing them down. A repo that records its limits builds a backlog it can see. A repo that writes rules without enforcers builds one it cannot.
 
@@ -40,7 +40,7 @@ flowchart LR
     T -.-> N
 ```
 
-The upper path is the loop as week 2 drew it. The queue, the log, the metrics and the spot-audit that weeks 3 and 4 added are left off so the model half stays readable, and the README carries the full picture. Everything under that row is what a model step adds. The arrow to read runs from the eval back to the self-check. A prompt or model change rejoins the build path where a finished build starts, carries its eval result into the same packet, and reaches the same reviewer working the same checklist. That is a second entrance to one gate rather than a second system beside it. The lower cycle turns at its own tempo, a change at a time, and the dotted return is slower again: an error rate per band sets the routing line, which decides which live outputs reach the person.
+The upper path is the loop as week 2 drew it. The queue, the log, the metrics and the spot-audit that weeks 3 and 4 added are left off so the model half stays readable, and [the about page](../docs/about-this-repo.md) carries the full picture. Everything under that row is what a model step adds. The arrow to read runs from the eval back to the self-check. A prompt or model change rejoins the build path where a finished build starts, carries its eval result into the same packet, and reaches the same reviewer working the same checklist. That is a second entrance to one gate rather than a second system beside it. The lower cycle turns at its own tempo, a change at a time, and the dotted return is slower again: an error rate per band sets the routing line, which decides which live outputs reach the person.
 
 The index check and its CI are not on this diagram. They govern the repo's own upkeep, the pointers in one index file, and no build passes through them, so drawing them onto a build diagram would be false.
 
@@ -76,6 +76,10 @@ The placement guide and the change standard each end in an edit to a file they d
 
 What the week did is the thing this repo had described twice and never run. It ran its own check, then took the running off memory, and it carried the review loop onto a component whose failures finish green.
 
+## What changed in v2
+
+- Repointed the caption's pointer to the full diagram. The complete loop drawing moved from the README to [the about page](../docs/about-this-repo.md) when the framework post took the front door.
+
 ---
 
-*v1. A living map. The next pass runs a prompt change end to end through the packet, builds the first eval set behind the release bar, and lands the two edits this week's new files are waiting on.*
+*v2. A living map. The next pass runs a prompt change end to end through the packet, builds the first eval set behind the release bar, and lands the two edits this week's new files are waiting on.*
