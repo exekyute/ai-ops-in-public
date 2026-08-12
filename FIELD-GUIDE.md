@@ -1,4 +1,4 @@
-# Field Guide (v1)
+# Field Guide (v2)
 
 ## What this is
 
@@ -48,7 +48,7 @@ Nothing here has run with a real team: no queue anyone pulled from, no build han
 
 Synthetic means authored to exercise a definition, and labeled that way wherever it appears. That covers every build name, every row in every log and queue, every worked example under a metric, and all three worked runs. One of them, [a rubber-stamped approval](examples/a-rubber-stamped-approval.md), walks a flaw past two people and lets the audit catch it.
 
-Real means it happened here, on a date, and you can check it in the tree. The standards, checklists, and procedures were written, versioned, and revised, though only 7 of the 34 files that call themselves living documents ever left v1. [The index check](checks/README.md), the script and CI that fail when a file exists in the tree but is missing from [the ordered index](sops/the-review-loop-in-order.md), is 217 lines of Python on a 19-line workflow, and both run. [The handoff intake](automations/handoff-intake/README.md), one workflow of 8 functional nodes in n8n, an automation tool, tests a submitted packet against the fields the handoff SOP requires and returns an incomplete one to the builder. It shipped failing four lines of this repo's own checklist, each written up beside the build with its fix, and none of the four is fixed. The counts are real too, each with the command that produces it. Taken the morning this page was written, before it and its entry existed: 91,006 words across 89 markdown files, 47 of them daily entries and 6 weekly logs, with 24 procedure and governance pieces in the ordered index. [The Repo by the Numbers](analytics/the-repo-by-the-numbers.md) is the census those commands come from, taken a day earlier and two files lower.
+Real means it happened here, on a date, and you can check it in the tree. The standards, checklists, and procedures were written, versioned, and revised, though most of the files that call themselves living documents never left v1: 7 of 34 when [the census](analytics/the-repo-by-the-numbers.md) counted them, 12 of 36 once the corrections that followed the run had landed. [The index check](checks/README.md), the script and CI that fail when a file exists in the tree but is missing from [the ordered index](sops/the-review-loop-in-order.md), is 217 lines of Python on a 19-line workflow, and both run. [The handoff intake](automations/handoff-intake/README.md), one workflow of 8 functional nodes in n8n, an automation tool, tests a submitted packet against the fields the handoff SOP requires and returns an incomplete one to the builder. It shipped failing four lines of this repo's own checklist, each written up beside the build with its fix, and none of the four is fixed. The counts are real too, each with the command that produces it. Taken the morning this page was written, before it and its entry existed: 91,006 words across 89 markdown files, 47 of them daily entries and 6 weekly logs, with 24 procedure and governance pieces in the ordered index. The Repo by the Numbers is the census those commands come from, taken a day earlier and two files lower.
 
 ## What broke, and what actually caught it
 
@@ -72,6 +72,13 @@ One person writing both sides of a review will always write two sides that agree
 
 Ten minutes: this page and the diagram. An hour: the standard, the checklist, and the reviewer's steps. A weekend: the ordered index, every piece listed by when you need it, plus [one worked run](examples/a-build-through-the-loop.md). If you take this somewhere and it breaks, that report is the most valuable thing anyone could add here.
 
+## What changed in v2
+
+- Corrected the revision ratio. It read 7 of 34 files ever leaving v1, which was true when the census
+  measured it and sat outside the as-of note that covers the counts later in the same paragraph. The
+  corrections made after the run moved it to 12 of 36, so the line now carries both figures and says
+  what moved between them.
+
 ---
 
-*v1. A living guide. The next pass swaps a worked run for a real one, if somebody runs this with a team and writes back.*
+*v2. A living guide. The next pass swaps a worked run for a real one, if somebody runs this with a team and writes back.*
