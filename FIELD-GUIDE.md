@@ -1,8 +1,8 @@
-# Field Guide (v2)
+# Field Guide (v3)
 
 ## What this is
 
-One person, seven weeks, one artifact a day, running 2026-06-22 to 2026-08-09, after which the cadence stops. Most of it builds one system: a review loop that carries an automation from "someone says it is done" to a decision a team can stand behind. A build here means one working automation, often assembled with a model's help, that somebody wants to put in front of other people.
+One person, seven weeks, one artifact a day, 2026-06-22 to 2026-08-09. The cadence has ended, so nothing here is in progress. Most of it builds one system: a review loop that carries an automation from "someone says it is done" to a decision a team can stand behind. A build here means one working automation, often assembled with a model's help, that somebody wants to put in front of other people.
 
 ## The loop in five sentences, and drawn
 
@@ -79,6 +79,13 @@ Ten minutes: this page and the diagram. An hour: the standard, the checklist, an
   corrections made after the run moved it to 12 of 36, so the line now carries both figures and says
   what moved between them.
 
+## What changed in v3
+
+- Put the opening line in the past tense. It said the cadence stops after 2026-08-09, which was
+  accurate on the day this page shipped and went stale the day after, leaving the front door for a cold
+  reader describing an ending that had already happened as one still ahead. Every other entry point
+  said the run was over; this one did not.
+
 ---
 
-*v2. A living guide. The next pass swaps a worked run for a real one, if somebody runs this with a team and writes back.*
+*v3. A living guide. The next pass swaps a worked run for a real one, if somebody runs this with a team and writes back.*
