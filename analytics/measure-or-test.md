@@ -1,4 +1,4 @@
-# Measure or Test (v1)
+# Measure or Test (v2)
 
 `sops/the-review-loop-in-order.md` shipped on Day 032, and it is built out of pointers: 22 distinct
 file paths cited 26 times, and 24 inline version claims like "(v3)", every one of them a promise
@@ -43,7 +43,7 @@ Three rules, in words, so it could be implemented in anything.
 1. **Every cited path resolves.** Pull every backticked token of the form `folder/file.md` out of the
    index, dedupe, and confirm each file exists. 26 citations, 22 distinct paths today.
 2. **Every version claim matches, and so does the title beside it.** Each entry reads as a path, a
-   title, and a version: "`sops/review-log-spec.md`, The Review Log (v3)". Every file the index cites
+   title, and a version: "`sops/review-log-spec.md`, The Review Log (v4)". Every file the index cites
    writes its H1 as `# Title (vN)`, so the entry's title and version together must equal that H1 with
    the leading hash removed. 24 entries today, four of them a second citation of a path cited
    elsewhere, and the repeats get checked separately because they drift independently. Reading the
@@ -180,7 +180,15 @@ specification, and nothing runs it, and a specified check nobody runs catches ex
 check at all. That is the same shape as the log nobody keeps (`sops/review-log-spec.md`) and the
 audit nobody performs. Writing down what to read was the cheap half.
 
+## What changed in v2
+
+- Corrected a stale version inside rule 2's worked example. It quoted the review log's entry as v3,
+  which was right when this memo shipped and stopped being right when that spec reached v4. The
+  example is about the shape of an entry, so the number is incidental to the point and was still a
+  claim about a file in this tree that the tree contradicted. Rule 2 exists to catch exactly this
+  drift, and it does not reach here: the check reads the index, not memos that quote it.
+
 ---
 
-*v1. A living memo. The next pass records what the first real drift turned out to be, whether rule 3
+*v2. A living memo. The next pass records what the first real drift turned out to be, whether rule 3
 caught a file nobody indexed, and whether the check ever became something a machine runs.*

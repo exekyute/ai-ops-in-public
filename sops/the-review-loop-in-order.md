@@ -94,7 +94,7 @@ Two records and the numbers read off them.
   still waiting.
 - `analytics/metric-definitions.md`, Metric Definitions (v4). The numbers read off those two records,
   with what each one can and cannot see.
-- `analytics/measure-or-test.md`, Measure or Test (v1). Why this index gets a check rather than a
+- `analytics/measure-or-test.md`, Measure or Test (v2). Why this index gets a check rather than a
   metric, and the four rules that check reads.
 - `analytics/evals-and-the-review-loop.md`, Evals and the Review Loop (v1). What a saved set of graded
   inputs can and cannot tell you about a model step, the two bars it has to clear, and why it gates a
